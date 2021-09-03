@@ -1,3 +1,4 @@
 .idea
 .*
 account.info
+/intent/new_intent/

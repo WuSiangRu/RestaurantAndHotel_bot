@@ -28,4 +28,12 @@ def getResult(inputSTR, utterance, args, resultDICT):
         # write your code here
         pass
 
+    if utterance == "[我]要[預約][8點]的位子":
+        # write your code here
+        pass
+
+    if utterance == "[預定][上午十點半]":
+        # write your code here
+        pass
+
     return resultDICT
