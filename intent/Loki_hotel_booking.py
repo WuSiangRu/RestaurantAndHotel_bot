@@ -23,6 +23,7 @@ def debugInfo(inputSTR, utterance):
         print("[hotel_booking] {} ===> {}".format(inputSTR, utterance))
 
 def getResult(inputSTR, utterance, args, resultDICT):
+    resultDICT["hotel_type"] = {"hotel_room": [], "hotel_person": []} #要再思考如何定義
     debugInfo(inputSTR, utterance)
     if utterance == "[我]要訂[3個]人的[旅館]":
         resultDICT["hotel_room"] = [args[1]]
