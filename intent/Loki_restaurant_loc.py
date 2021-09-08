@@ -23,21 +23,26 @@ def debugInfo(inputSTR, utterance):
         print("[restaurant_loc] {} ===> {}".format(inputSTR, utterance))
 
 def getResult(inputSTR, utterance, args, resultDICT):
+    resultDICT["res_loc"] = None    #初始狀態
     debugInfo(inputSTR, utterance)
     if utterance == "[我]不[清楚]這家[店]的位置":
-        # write your code here
+        if "{}的位置".format(args[2]) in inputSTR:
+            resultDICT["res_loc"] = ["request"]
         pass
 
     if utterance == "[我]不知道這間[餐廳]在哪":
-        # write your code here
+        if "{}在哪".format(args[1]) in inputSTR:
+            resultDICT["res_loc"] = ["request"]
         pass
 
     if utterance == "這間[店]在哪":
-        # write your code here
+        if "{}在哪".format(args[0]) in inputSTR:
+            resultDICT["res_loc"] = ["request"]
         pass
 
     if utterance == "這間[餐廳]位在哪裡":
-        # write your code here
+        if "{}位在哪裡".format(args[0]) in inputSTR:
+            resultDICT["res_loc"] = ["request"]
         pass
 
     return resultDICT

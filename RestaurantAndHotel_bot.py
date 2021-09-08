@@ -315,7 +315,11 @@ if __name__ == "__main__":
     print("")
     """
     # 輸入其它句子試看看
-    inputLIST = ["有十人位子"]
+    # inputLIST = ["我要預約十點的位子"]
+    inputLIST = ["預定下午六點半"]
+    # inputLIST = ["這間店家評價如何"]
+    # inputLIST = ["這間吃飯處在哪裡"]
+    # inputLIST = ["這間餐廳要花多少"]
     filterLIST = []
     resultDICT = runLoki(inputLIST, filterLIST)
     print("Result => {}".format(resultDICT))

@@ -13,9 +13,25 @@
     Output:
         resultDICT    dict
 """
-
+from ArticutAPI import ArticutAPI
+articut = ArticutAPI.Articut()
+import dateparser
 DEBUG_restaurant_time = True
 userDefinedDICT = {"地區": ["忠孝復興站", "忠孝敦化站", "國父紀念館站", "沙鹿區", "北屯區", "西屯區", "中西區", "東區", "南區"], "房間": ["房"], "新北": ["新北市"], "旅館": ["青年旅館", "飯店", "休息處", "住宿處", "休息的地方"], "臺中": ["台中市", "臺中市", "台中"], "臺北": ["臺北市", "台北", "台北市"], "臺南": ["台南市", "臺南市", "台南"], "預定": ["預約", "訂位"], "餐廳": ["餐館", "店家", "吃飯的地方", "吃飯處", "店"], "高雄": ["高雄市"]}
+
+def timeSTRConvert(inputSTR):
+    resultDICT = {}
+    resultDICT = articut.parse(inputSTR, level="lv3")
+    return resultDICT
+
+# def format_identifier(time_STR):
+#     if dt.strftime("%p") == "PM":
+#         time_STR = time_STR + "PM"
+#         dt1 = dateparser.parse(time_STR)
+#         time_STR = datetime.strftime(dt1, '%H:%M')
+#         return time_STR
+#     else:
+#         return time_STR
 
 # 將符合句型的參數列表印出。這是 debug 或是開發用的。
 def debugInfo(inputSTR, utterance):
@@ -24,16 +40,50 @@ def debugInfo(inputSTR, utterance):
 
 def getResult(inputSTR, utterance, args, resultDICT):
     debugInfo(inputSTR, utterance)
-    if utterance == "[我]要[預定][9點50分]的位子":
-        # write your code here
-        pass
-
-    if utterance == "[我]要[預約][8點]的位子":
-        # write your code here
-        pass
-
     if utterance == "[預定][上午十點半]":
-        # write your code here
+        datetime = timeSTRConvert(args[1])["time"]
+        dt = datetime[0][0]["datetime"][-8:-3]
+        resultDICT["res_time"] = dt
+        pass
+
+    if utterance == "[7]:[46][會]到":
+        resultDICT['res_time'] = [args[0] + ":" + args[1]]
+        pass
+
+    if utterance == "[七點四十六分]的位子":
+        datetime = timeSTRConvert(args[0])["time"]
+        dt = datetime[0][0]["datetime"][-8:-3]
+        resultDICT["res_time"] = dt
+        pass
+
+    if utterance == "[我]要[預約][八點]的位子":
+        datetime = timeSTRConvert(args[2])["time"]
+        dt = datetime[0][0]["datetime"][-8:-3]
+        resultDICT["res_time"] = dt
+        pass
+
+    if utterance == "[預定][9]:[30]":
+        resultDICT['res_time'] = [args[1] + ":" + args[2]]
+        pass
+
+    if utterance == "[預定][下午五點五十分]到":
+        datetime = timeSTRConvert(args[1])["time"]
+        dt = datetime[0][0]["datetime"][-8:-3]
+        resultDICT["res_time"] = dt
+        pass
+
+    if utterance == "預計[九點半]到":
+        datetime = timeSTRConvert(args[0])["time"]
+        dt = datetime[0][0]["datetime"][-8:-3]
+        resultDICT["res_time"] = dt
+        pass
+
+    if utterance == "[預定][大概][上午][11]:[25]到":
+        resultDICT['res_time'] = [args[3] + ":" + args[4]]
+        pass
+
+    if utterance == "[預約][晚上][7]:[43]的位子":
+        resultDICT['res_time'] = [args[2] + ":" + args[3]]
         pass
 
     return resultDICT

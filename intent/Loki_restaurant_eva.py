@@ -23,25 +23,31 @@ def debugInfo(inputSTR, utterance):
         print("[restaurant_eva] {} ===> {}".format(inputSTR, utterance))
 
 def getResult(inputSTR, utterance, args, resultDICT):
+    resultDICT["res_eva"] = None    #初始狀態
     debugInfo(inputSTR, utterance)
     if utterance == "這[店家]好嗎":
-        # write your code here
+        if "好嗎" in inputSTR:
+            resultDICT["res_eva"] = ["request"]
         pass
 
     if utterance == "這家好吃嗎":
-        # write your code here
+        if "好吃嗎" in inputSTR:
+            resultDICT["res_eva"] = ["request"]
         pass
 
     if utterance == "這間[食物][好吃]嗎":
-        # write your code here
+        if "好吃嗎" in inputSTR:
+            resultDICT["res_eva"] = ["request"]
         pass
 
     if utterance == "這間[餐廳]評價如何":
-        # write your code here
+        if "評價" in inputSTR:
+            resultDICT["res_eva"] = ["request"]
         pass
 
     if utterance == "那這家[餐廳]評價如何啊":
-        # write your code here
+        if "評價" in inputSTR:
+            resultDICT["res_eva"] = ["request"]
         pass
 
     return resultDICT
