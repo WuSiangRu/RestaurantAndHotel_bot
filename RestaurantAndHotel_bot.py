@@ -316,13 +316,14 @@ if __name__ == "__main__":
     """
     # 輸入其它句子試看看
     # inputLIST = ["我要預約十點的位子"]
-    inputLIST = ["預定下午六點半"]
+    # inputLIST = ["預定下午六點半"]
     # inputLIST = ["這間店家評價如何"]
     # inputLIST = ["這間吃飯處在哪裡"]
     # inputLIST = ["這間餐廳要花多少"]
+    inputLIST = ["我在台北市"]
+    inputLIST = ["想要預約下午8:23的位子"]
     filterLIST = []
     resultDICT = runLoki(inputLIST, filterLIST)
     print("Result => {}".format(resultDICT))
 
-    articut = Articut(username=USERNAME, apikey=Articut_key)
 

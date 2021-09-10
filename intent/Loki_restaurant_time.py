@@ -13,8 +13,15 @@
     Output:
         resultDICT    dict
 """
+import json
 from ArticutAPI import ArticutAPI
-articut = ArticutAPI.Articut()
+with open(r"./account.info", encoding="UTF-8") as f:
+    accountINFO = json.load(f)
+
+USERNAME = accountINFO["username"]
+Articut_key = accountINFO["articut_api_key"]
+articut = ArticutAPI.Articut(username=USERNAME, apikey=Articut_key)
+
 import dateparser
 DEBUG_restaurant_time = True
 userDefinedDICT = {"地區": ["忠孝復興站", "忠孝敦化站", "國父紀念館站", "沙鹿區", "北屯區", "西屯區", "中西區", "東區", "南區"], "房間": ["房"], "新北": ["新北市"], "旅館": ["青年旅館", "飯店", "休息處", "住宿處", "休息的地方"], "臺中": ["台中市", "臺中市", "台中"], "臺北": ["臺北市", "台北", "台北市"], "臺南": ["台南市", "臺南市", "台南"], "預定": ["預約", "訂位"], "餐廳": ["餐館", "店家", "吃飯的地方", "吃飯處", "店"], "高雄": ["高雄市"]}
