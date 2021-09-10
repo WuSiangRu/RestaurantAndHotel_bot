@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.CRITICAL)
 # <取得多輪對話資訊>
 client = discord.Client()
 
-creditTemplate ={"annual_income":"",
+creditTemplate = {"annual_income": "",
                  "education": "",
                  "job": "",
                  "job_year": ""}
