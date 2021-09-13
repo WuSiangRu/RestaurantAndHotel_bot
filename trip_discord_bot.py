@@ -5,6 +5,7 @@ import logging
 import discord
 import json
 import re
+import datetime
 
 from RestaurantAndHotel_bot import runLoki
 from pprint import pprint
@@ -15,6 +16,11 @@ logging.basicConfig(level=logging.CRITICAL)
 # <取得多輪對話資訊>
 client = discord.Client()
 
+templateDICT = {"city": None,
+                "area": None,
+                "shop": {},
+                }
+"""
 creditTemplate = {"annual_income": "",
                  "education": "",
                  "job": "",
@@ -28,9 +34,9 @@ mortgageTemplate = {"annual_income": "",
                     "floor_size": "",
                     "year": "",
                     "type": ""}
-
+"""
 mscDICT = {
-    # "userID": {creditTemplate, mortgageTemplate}
+    # "userID": {templateDICT}
 }
 # </取得多輪對話資訊>
 
@@ -38,6 +44,8 @@ with open("account.info", encoding="utf-8") as f:
     accountDICT = json.loads(f.read())
 # 另一個寫法是：accountDICT = json.load(open("account.info", encoding="utf-8"))
 
+with open(r"./data/restaurant_domain.json", encoding="UTF-8") as f:
+    restaurantDICT = json.load(f)
 
 punctuationPat = re.compile("[,\.\?:;，。？、：；\n]+")
 
@@ -79,6 +87,11 @@ async def on_message(message):
             await message.reply(replySTR)
             return
 
+        elif re.search("(這附近有什麼[好可以]吃的|我想吃[東西晚餐午餐早餐])"):
+            replySTR = "請問您在哪個縣市呢?"
+            await message.reply(replySTR)
+            return
+
         lokiResultDICT = getLokiResult(msgSTR)    # 取得 Loki 回傳結果
 
         if lokiResultDICT:
@@ -86,7 +99,13 @@ async def on_message(message):
                 mscDICT[client.user.id] = {"credit": {},
                                            "mortgage": {},
                                            "loan_type": "credit",
+                                           "updatetime": datetime.now(),
                                            "completed": False}
+            else:
+                datetimeNow = datetime.now()  # 取得當下時間
+                timeDIFF = datetimeNow - mscDICT[client.user.id]["updatetime"]
+                if timeDIFF.total_seconds() <= 300:  # 以秒為單位，5分鐘以內都算是舊對話
+                    mscDICT[client.user.id]["updatetime"] = datetimeNow
 
             for k in lokiResultDICT:    # 將 Loki Intent 的結果，存進 Global mscDICT 變數，可替換成 Database。
                 if k == "credit":
