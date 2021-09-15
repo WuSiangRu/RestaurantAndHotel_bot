@@ -320,12 +320,12 @@ if __name__ == "__main__":
     # inputLIST = ["這間店家評價如何"]
     # inputLIST = ["這間吃飯處在哪裡"]
     # inputLIST = ["這間餐廳要花多少"]
-    # inputLIST = ["我在台北市"]
-    inputLIST = ["我在中西區"]
+    inputLIST = ["我在台南市"]
+    # inputLIST = ["在中西區"]
     # inputLIST = ["想要預約下午8:23的位子"]
     filterLIST = []
     resultDICT = runLoki(inputLIST, filterLIST)
     print("Result => {}".format(resultDICT))
-    print(resultDICT["area"])
+    # print(resultDICT["area"])
 
 

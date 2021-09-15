@@ -67,8 +67,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.channel.name != "bot_test":
-        return
+    # if message.channel.name != "bot_test":
+    #     return
 
     if not re.search("<@[!&]{}> ?".format(client.user.id), message.content):    # 只有 @Bot 才會回應
         return
@@ -87,27 +87,28 @@ async def on_message(message):
         await message.reply(replySTR)
         return
 
-    elif re.search("(這附近有什麼[好可以]吃的|我想吃[東西晚餐午餐早餐])"):
+    elif re.search("(這附近有什麼(好|可以?)吃的|我想吃(東西|[晚午早]餐))", msgSTR):
         replySTR = "請問您在哪個縣市呢?"
         await message.reply(replySTR)
         return
 
     lokiResultDICT = getLokiResult(msgSTR)    # 取得 Loki 回傳結果
-
+    # confirm_city = ""
+    # confirm_area = ""
     if lokiResultDICT:
         if client.user.id not in mscDICT:    # 判斷 User 是否為第一輪對話
             mscDICT[client.user.id] = {"city": "",
                                        "area": "",
                                        "shop": {},
-                                       "updatetime": datetime.now(),
-                                       "completed": False}
+                                       "updatetime": datetime.datetime.now(),
+                                       "completed": False
+                                       }
         else:
-            datetimeNow = datetime.now()  # 取得當下時間
+            datetimeNow = datetime.datetime.now()  # 取得當下時間
             timeDIFF = datetimeNow - mscDICT[client.user.id]["updatetime"]
             if timeDIFF.total_seconds() <= 300:  # 以秒為單位，5分鐘以內都算是舊對話
                 mscDICT[client.user.id]["updatetime"] = datetimeNow
-        confirm_city = ""
-        confirm_area = ""
+
         for k in lokiResultDICT.keys():
             if k == "city":
                 mscDICT[client.user.id]["city"] = lokiResultDICT["city"]
@@ -115,6 +116,7 @@ async def on_message(message):
             elif k == "area":
                 mscDICT[client.user.id]["area"] = lokiResultDICT["area"]
                 confirm_area = lokiResultDICT["area"]
+
         if mscDICT[client.user.id]["city"] == "" and replySTR == "":
             replySTR = "請問你在哪個縣市呢?"
 
@@ -122,16 +124,21 @@ async def on_message(message):
             replySTR = "請問您在哪個地區呢?"
 
         elif mscDICT[client.user.id]["city"] != "" and mscDICT[client.user.id]["area"] != "" and replySTR == "":
-            replySTR = """以下推薦[{}]家餐廳給您，
-                        分別為:[{}]。
-                        請問有您喜歡的店家嗎?""".format(len(restaurantDICT[confirm_city][confirm_area].keys()), restaurantDICT[confirm_city][confirm_area].keys())
+            print(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]])
+            replySTR = """以下推薦[{}]家餐廳給您，分別為:[{}]。請問有您喜歡的店家嗎?""".format(len(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()),
+                                                                       [i for i in restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()])
+
+
+    # for k in restaurantDICT[confirm_city][confirm_area].keys():
+    #     print(k)
+
 
             mscDICT[client.user.id]["completed"] = True
-    print("mscDICT =")
-    pprint(mscDICT)
+        print("mscDICT =", end=" ")
+        pprint(mscDICT)
 
-    if mscDICT[client.user.id]["completed"]:    # 清空 User Dict
-        del mscDICT[client.user.id]
+    # if mscDICT[client.user.id]["completed"]:    # 清空 User Dict
+    #     del mscDICT[client.user.id]
 
     if replySTR:    # 回應 User 訊息
         await message.reply(replySTR)

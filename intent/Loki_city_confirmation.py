@@ -46,38 +46,38 @@ def getResult(inputSTR, utterance, args, resultDICT):
     if utterance == "[我][現在]在[台南]":
         if "在{}".format(args[2]) in inputSTR:
             if args[2] not in userDefinedDICT["地區"]:
-                resultDICT["city"] = [confirm_city(userDefinedDICT, args=args[2])]
+                resultDICT["city"] = confirm_city(userDefinedDICT, args=args[2])
             else:
-                resultDICT["area"] = [confirm_area(userDefinedDICT, args=args[2])]
+                resultDICT["area"] = confirm_area(userDefinedDICT, args=args[2])
 
 
     if utterance == "[我]在的縣市是[台中]":
         if args[1] not in userDefinedDICT["地區"]:
-            resultDICT["city"] = [confirm_city(userDefinedDICT, args=args[1])]
+            resultDICT["city"] = confirm_city(userDefinedDICT, args=args[1])
         else:
-            resultDICT["area"] = [confirm_area(userDefinedDICT, args=args[1])]
+            resultDICT["area"] = confirm_area(userDefinedDICT, args=args[1])
 
 
     if utterance == "在[臺中]":
         if "在{}".format(args[0]) in inputSTR:
             if args[0] not in userDefinedDICT["地區"]:
-                resultDICT["city"] = [confirm_city(userDefinedDICT, args=args[0])]
+                resultDICT["city"] = confirm_city(userDefinedDICT, args=args[0])
             else:
-                resultDICT["area"] = [confirm_area(userDefinedDICT, args=args[0])]
+                resultDICT["area"] = confirm_area(userDefinedDICT, args=args[0])
 
 
     if utterance == "我人在[台南]":
         if args[0] not in userDefinedDICT["地區"]:
-            resultDICT["city"] = [confirm_city(userDefinedDICT, args=args[0])]
+            resultDICT["city"] = confirm_city(userDefinedDICT, args=args[0])
         else:
-            resultDICT["area"] = [confirm_area(userDefinedDICT, args=args[0])]
+            resultDICT["area"] = confirm_area(userDefinedDICT, args=args[0])
 
 
     if utterance == "[我][現在]的地區是[北屯區]":
         if args[2] not in userDefinedDICT["地區"]:
             resultDICT["city"] = confirm_city(userDefinedDICT, args=args[2])
         else:
-            resultDICT["area"] = [confirm_area(userDefinedDICT, args=args[2])]
+            resultDICT["area"] = confirm_area(userDefinedDICT, args=args[2])
 
 
     return resultDICT
