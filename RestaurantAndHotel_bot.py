@@ -323,7 +323,8 @@ if __name__ == "__main__":
     # inputLIST = ["我在台南市"]
     # inputLIST = ["我要預訂5人位子"]
     # inputLIST = ["蝦老爹美食海鮮"]
-    inputLIST = ["在中西區"]
+    # inputLIST = ["在中西區"]
+    inputLIST = ["7:46會到"]
     # inputLIST = ["想要預約下午8:23的位子"]
     filterLIST = []
     resultDICT = runLoki(inputLIST, filterLIST)
