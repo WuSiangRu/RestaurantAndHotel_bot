@@ -96,7 +96,7 @@ async def on_message(message):
     replySTR = ""    # Bot 回應訊息
 
     RestaurantLIST = get_restaurantLIST(restaurantDICT)   # 這邊透過get_restaurantLIST函式得到包含所有餐廳的list
-
+    lokiResultDICT = getLokiResult(msgSTR)  # 取得 Loki 回傳結果
     if re.search("(hi|hello|哈囉|嗨|[你您]好)", msgSTR.lower()):
         replySTR = "Hi 您好，請問需要什麼服務嗎？"
         await message.reply(replySTR)
@@ -109,6 +109,7 @@ async def on_message(message):
 
     ####elif msgSTR in LIST:
     elif msgSTR in RestaurantLIST:
+        # if mscDICT[client.user.id] in 更新內容
         mscDICT[client.user.id] = {"people": None,
                                    "time": None,
                                    "restaurant_name": {},  # 2個值:餐廳name, 能否預約
@@ -127,8 +128,16 @@ async def on_message(message):
             replySTR = "好的,請問幾位?"
         else:
             replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
+            mscDICT[client.user.id]["restaurant_name"] = {}
+
+    elif lokiResultDICT:
+        for k in lokiResultDICT.keys():
+            if k == "res_person":
+                mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"]
+                replySTR = "請問大概幾點會到呢?"
+
 ##########################################
-    lokiResultDICT = getLokiResult(msgSTR)    # 取得 Loki 回傳結果
+    # lokiResultDICT = getLokiResult(msgSTR)    # 取得 Loki 回傳結果
 
     if lokiResultDICT:
         if client.user.id not in mscDICT:    # 判斷 User 是否為第一輪對話
@@ -152,6 +161,9 @@ async def on_message(message):
                 mscDICT[client.user.id]["area"] = lokiResultDICT["area"]
                 # confirm_area = lokiResultDICT["area"]
 
+            # elif k == "res_person":
+            #     mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"]
+
         if mscDICT[client.user.id]["city"] == "" and replySTR == "":
             replySTR = "請問你在哪個縣市呢?"
 
@@ -163,6 +175,8 @@ async def on_message(message):
             replySTR = """以下推薦[{}]家餐廳給您，分別為:[{}]。請問有您喜歡的店家嗎?""".format(len(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()),
                                                                        [i for i in restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()])
 
+        # elif mscDICT[client.user.id]["people"] != None and mscDICT[client.user.id]["time"] == None:
+        #     replySTR = "請問大概幾點會到呢?"
     # elif msgSTR in RestaurantLIST:
     #     mscDICT[client.user.id] = {"people": None,
     #                                "time": None,
