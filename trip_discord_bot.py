@@ -16,19 +16,29 @@ logging.basicConfig(level=logging.CRITICAL)
 # <取得多輪對話資訊>
 client = discord.Client()
 
-command_templateDICT = {"city": None,
-                "area": None,
-                "shop": {},
-                "updatetime": datetime.datetime.now(),
-                "completed": False
-                }
+# command_templateDICT = {"city": None,
+#                 "area": None,
+#                 "shop": {},
+#                 "updatetime": datetime.datetime.now(),
+#                 "completed": False
+#                 }
+#
+# reservation_templateDICT = {"people": None,
+#                 "time": None,
+#                 "restaurant_name": {}, #2個值:餐廳name, 能否預約
+#                 "updatetime": datetime.datetime.now(),
+#                 "completed": False
+#                 }
 
-reservation_templateDICT = {"people": None,
-                "time": None,
-                "restaurant_name": {}, #2個值:餐廳name, 能否預約
-                "updatetime": datetime.datetime.now(),
-                "completed": False
-                }
+new_templateDICT = {"city": None,
+                    "area": None,
+                    "restaurant_name": {}, #2個值:餐廳name, 能否預約
+                    "people": None,
+                    "time": None,
+                    "updatetime": datetime.datetime.now(),
+                    "completed": False
+                    }
+
 
 mscDICT = {
     # "userID": {command_templateDICT}
@@ -108,14 +118,86 @@ async def on_message(message):
         return
 
     ####elif msgSTR in LIST:
+    # elif msgSTR in RestaurantLIST:
+    #     # if mscDICT[client.user.id] in 更新內容
+    #     mscDICT[client.user.id] = {"people": None,
+    #                                "time": None,
+    #                                "restaurant_name": {},  # 2個值:餐廳name, 能否預約
+    #                                "updatetime": datetime.datetime.now(),
+    #                                "completed": False
+    #                                }
+    #     replySTR = "好的您選擇的店家是:[{}]，請問還需要其他服務嗎?".format(msgSTR)
+    #     mscDICT[client.user.id]["restaurant_name"]["name"] = msgSTR
+    #     if get_reservation(jsonfile=restaurantDICT, msgSTR=msgSTR) == "是":  # 判斷該餐廳是否能預約
+    #         mscDICT[client.user.id]["restaurant_name"]["預約"] = "yes"
+    #     else:
+    #         mscDICT[client.user.id]["restaurant_name"]["預約"] = "no"
+    #
+    # elif re.search("(我想要(訂位|預約))", msgSTR):
+    #     if mscDICT[client.user.id]["restaurant_name"]["預約"] == "yes":
+    #         replySTR = "好的,請問幾位?"
+    #     else:
+    #         replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
+    #         mscDICT[client.user.id]["restaurant_name"] = {}
+    #
+    # elif lokiResultDICT:
+    #     for k in lokiResultDICT.keys():
+    #         if k == "res_person":
+    #             mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"]
+    #             replySTR = "請問大概幾點會到呢?"
+
+##########################################
+    # lokiResultDICT = getLokiResult(msgSTR)    # 取得 Loki 回傳結果
+
+    if lokiResultDICT:
+        if client.user.id not in mscDICT:    # 判斷 User 是否為第一輪對話
+            mscDICT[client.user.id] = {"city": "",
+                                       "area": "",
+                                       "restaurant_name": {}, #2個值:餐廳name, 能否預約
+                                       "people": None,
+                                       "time": None,
+                                       "updatetime": datetime.datetime.now(),
+                                       "completed": False
+                                       }
+        else:
+            datetimeNow = datetime.datetime.now()  # 取得當下時間
+            timeDIFF = datetimeNow - mscDICT[client.user.id]["updatetime"]
+            if timeDIFF.total_seconds() <= 300:  # 以秒為單位，5分鐘以內都算是舊對話
+                mscDICT[client.user.id]["updatetime"] = datetimeNow
+
+        for k in lokiResultDICT.keys():
+            if k == "city":
+                mscDICT[client.user.id]["city"] = lokiResultDICT["city"]
+
+            elif k == "area":
+                mscDICT[client.user.id]["area"] = lokiResultDICT["area"]
+
+
+            elif k == "res_person":
+                mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"][0]
+
+            elif k == "res_time":
+                mscDICT[client.user.id]["time"] = lokiResultDICT["res_time"]
+
+        if mscDICT[client.user.id]["city"] == "" and replySTR == "":
+            replySTR = "請問你在哪個縣市呢?"
+
+        elif mscDICT[client.user.id]["area"] == "" and replySTR == "":
+            replySTR = "請問您在哪個地區呢?"
+
+        elif mscDICT[client.user.id]["city"] != "" and mscDICT[client.user.id]["area"] != "" and mscDICT[client.user.id]["people"] == None and mscDICT[client.user.id]["time"] == None and replySTR == "":
+            # print(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]])
+            replySTR = """以下推薦[{}]家餐廳給您，分別為:[{}]。請問有您喜歡的店家嗎?""".format(len(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()),
+                                                                       [i for i in restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()])
+
+        # ###9/18增加
+        elif mscDICT[client.user.id]["people"] != None and mscDICT[client.user.id]["time"] == None and replySTR == "":
+            replySTR = "好的人數為[{}]位,請問大約幾點到呢?".format(mscDICT[client.user.id]["people"])
+
+        elif mscDICT[client.user.id]["time"] != None and replySTR == "":
+            replySTR="""好的這邊跟您確認預約資訊為: \n預約人數:[{}]\n預約時間:[{}]\n預約餐廳:[{}]\n請問以上資訊有誤嗎?""".format(mscDICT[client.user.id]["people"], mscDICT[client.user.id]["time"], mscDICT[client.user.id]["restaurant_name"]["name"])
+        # ###9/18增加
     elif msgSTR in RestaurantLIST:
-        # if mscDICT[client.user.id] in 更新內容
-        mscDICT[client.user.id] = {"people": None,
-                                   "time": None,
-                                   "restaurant_name": {},  # 2個值:餐廳name, 能否預約
-                                   "updatetime": datetime.datetime.now(),
-                                   "completed": False
-                                   }
         replySTR = "好的您選擇的店家是:[{}]，請問還需要其他服務嗎?".format(msgSTR)
         mscDICT[client.user.id]["restaurant_name"]["name"] = msgSTR
         if get_reservation(jsonfile=restaurantDICT, msgSTR=msgSTR) == "是":  # 判斷該餐廳是否能預約
@@ -130,69 +212,10 @@ async def on_message(message):
             replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
             mscDICT[client.user.id]["restaurant_name"] = {}
 
-    elif lokiResultDICT:
-        for k in lokiResultDICT.keys():
-            if k == "res_person":
-                mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"]
-                replySTR = "請問大概幾點會到呢?"
-
-##########################################
-    # lokiResultDICT = getLokiResult(msgSTR)    # 取得 Loki 回傳結果
-
-    if lokiResultDICT:
-        if client.user.id not in mscDICT:    # 判斷 User 是否為第一輪對話
-            mscDICT[client.user.id] = {"city": "",
-                                       "area": "",
-                                       "shop": {},
-                                       "updatetime": datetime.datetime.now(),
-                                       "completed": False
-                                       }
-        else:
-            datetimeNow = datetime.datetime.now()  # 取得當下時間
-            timeDIFF = datetimeNow - mscDICT[client.user.id]["updatetime"]
-            if timeDIFF.total_seconds() <= 300:  # 以秒為單位，5分鐘以內都算是舊對話
-                mscDICT[client.user.id]["updatetime"] = datetimeNow
-
-        for k in lokiResultDICT.keys():
-            if k == "city":
-                mscDICT[client.user.id]["city"] = lokiResultDICT["city"]
-                # confirm_city = lokiResultDICT["city"]
-            elif k == "area":
-                mscDICT[client.user.id]["area"] = lokiResultDICT["area"]
-                # confirm_area = lokiResultDICT["area"]
-
-            # elif k == "res_person":
-            #     mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"]
-
-        if mscDICT[client.user.id]["city"] == "" and replySTR == "":
-            replySTR = "請問你在哪個縣市呢?"
-
-        elif mscDICT[client.user.id]["area"] == "" and replySTR == "":
-            replySTR = "請問您在哪個地區呢?"
-
-        elif mscDICT[client.user.id]["city"] != "" and mscDICT[client.user.id]["area"] != "" and replySTR == "":
-            print(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]])
-            replySTR = """以下推薦[{}]家餐廳給您，分別為:[{}]。請問有您喜歡的店家嗎?""".format(len(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()),
-                                                                       [i for i in restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()])
-
-        # elif mscDICT[client.user.id]["people"] != None and mscDICT[client.user.id]["time"] == None:
-        #     replySTR = "請問大概幾點會到呢?"
-    # elif msgSTR in RestaurantLIST:
-    #     mscDICT[client.user.id] = {"people": None,
-    #                                "time": None,
-    #                                "restaurant_name": {},  # 2個值:餐廳name, 能否預約
-    #                                "updatetime": datetime.datetime.now(),
-    #                                "completed": False
-    #                                }
-    #     replySTR = "好的您選擇的店家是:[{}]，請問還需要其他服務嗎?".format(msgSTR)
-    #     mscDICT[client.user.id]["restaurant_name"]["name"] = msgSTR
-        # if restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]][msgSTR]["預約"] == "是":
-        #     mscDICT[client.user.id]["restaurant_name"]["預約"] = "yes"
-        # else:
-        #     mscDICT[client.user.id]["restaurant_name"]["預約"] = "no"
-
-    # elif re.search("(我想要(訂位|預約))", msgSTR):
-
+    ###9/18增加
+    # elif mscDICT[client.user.id]["people"] != None and mscDICT[client.user.id]["time"] == None and replySTR == "":
+    #     replySTR = "好的人數為{()}位,請問大約幾點到呢?".format(mscDICT[client.user.id]["people"])
+    ###9/18增加
 
     mscDICT[client.user.id]["completed"] = True
     print("mscDICT =", end=" ")

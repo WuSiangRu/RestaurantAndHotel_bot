@@ -59,6 +59,7 @@ try:
     from intent import Loki_city_confirmation
     from intent import Loki_restaurant_price
     from intent import Loki_hotel_loc
+    from intent import Loki_reserve_trigger
 except:
     from .intent import Loki_restaurant_booking
     from .intent import Loki_restaurant_loc
@@ -71,6 +72,7 @@ except:
     from .intent import Loki_city_confirmation
     from .intent import Loki_restaurant_price
     from .intent import Loki_hotel_loc
+    from .intent import Loki_reserve_trigger
 
 with open(r"./account.info", encoding="UTF-8") as f:
     accountINFO = json.load(f)
@@ -236,6 +238,10 @@ def runLoki(inputLIST, filterLIST=[]):
                 if lokiRst.getIntent(index, resultIndex) == "hotel_loc":
                     resultDICT = Loki_hotel_loc.getResult(key, lokiRst.getUtterance(index, resultIndex), lokiRst.getArgs(index, resultIndex), resultDICT)
 
+                # reserve_trigger
+                if lokiRst.getIntent(index, resultIndex) == "reserve_trigger":
+                    resultDICT = Loki_reserve_trigger.getResult(key, lokiRst.getUtterance(index, resultIndex), lokiRst.getArgs(index, resultIndex), resultDICT)
+
     else:
         resultDICT = {"msg": lokiRst.getMessage()}
     return resultDICT
@@ -313,6 +319,12 @@ if __name__ == "__main__":
     inputLIST = ['這間旅館在哪附近','這間旅館的位置在哪']
     testLoki(inputLIST, ['hotel_loc'])
     print("")
+    
+    # reserve_trigger
+    print("[TEST] reserve_trigger")
+    inputLIST = ['我想預約', '我要預約', '能預約嗎', '可以預訂嗎', '我想先預約', '我想要預定', '我想要預約', '方便預約嗎', '可以先預約嗎', '可以預訂位子嗎', '我想要預定座位', '我要先預約位子']
+    testLoki(inputLIST, ['reserve_trigger'])
+    print("")
     """
     # 輸入其它句子試看看
     # inputLIST = ["我要預約十點的位子"]
@@ -324,7 +336,8 @@ if __name__ == "__main__":
     # inputLIST = ["我要預訂5人位子"]
     # inputLIST = ["蝦老爹美食海鮮"]
     # inputLIST = ["在中西區"]
-    inputLIST = ["7:46會到"]
+    # inputLIST = ["7:46會到"]
+    inputLIST = ["我要先預約"]
     # inputLIST = ["想要預約下午8:23的位子"]
     filterLIST = []
     resultDICT = runLoki(inputLIST, filterLIST)

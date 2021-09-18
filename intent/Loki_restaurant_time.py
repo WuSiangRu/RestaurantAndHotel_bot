@@ -24,7 +24,7 @@ articut = ArticutAPI.Articut(username=USERNAME, apikey=Articut_key)
 
 import dateparser
 DEBUG_restaurant_time = True
-userDefinedDICT = {"房間": ["房"], "旅館": ["青年旅館", "飯店", "休息處", "住宿處", "休息的地方"], "預定": ["預約", "訂位"], "餐廳": ["餐館", "店家", "吃飯的地方", "吃飯處", "店"]}
+userDefinedDICT = {"房間": ["房"], "旅館": ["青年旅館", "飯店", "休息處", "住宿處", "休息的地方"], "預定": ["預約", "訂位", "預訂"], "餐廳": ["餐館", "店家", "吃飯的地方", "吃飯處", "店"]}
 
 def timeSTRConvert(inputSTR):
     resultDICT = {}
