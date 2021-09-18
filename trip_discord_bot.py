@@ -117,38 +117,6 @@ async def on_message(message):
         await message.reply(replySTR)
         return
 
-    ####elif msgSTR in LIST:
-    # elif msgSTR in RestaurantLIST:
-    #     # if mscDICT[client.user.id] in 更新內容
-    #     mscDICT[client.user.id] = {"people": None,
-    #                                "time": None,
-    #                                "restaurant_name": {},  # 2個值:餐廳name, 能否預約
-    #                                "updatetime": datetime.datetime.now(),
-    #                                "completed": False
-    #                                }
-    #     replySTR = "好的您選擇的店家是:[{}]，請問還需要其他服務嗎?".format(msgSTR)
-    #     mscDICT[client.user.id]["restaurant_name"]["name"] = msgSTR
-    #     if get_reservation(jsonfile=restaurantDICT, msgSTR=msgSTR) == "是":  # 判斷該餐廳是否能預約
-    #         mscDICT[client.user.id]["restaurant_name"]["預約"] = "yes"
-    #     else:
-    #         mscDICT[client.user.id]["restaurant_name"]["預約"] = "no"
-    #
-    # elif re.search("(我想要(訂位|預約))", msgSTR):
-    #     if mscDICT[client.user.id]["restaurant_name"]["預約"] == "yes":
-    #         replySTR = "好的,請問幾位?"
-    #     else:
-    #         replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
-    #         mscDICT[client.user.id]["restaurant_name"] = {}
-    #
-    # elif lokiResultDICT:
-    #     for k in lokiResultDICT.keys():
-    #         if k == "res_person":
-    #             mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"]
-    #             replySTR = "請問大概幾點會到呢?"
-
-##########################################
-    # lokiResultDICT = getLokiResult(msgSTR)    # 取得 Loki 回傳結果
-
     if lokiResultDICT:
         if client.user.id not in mscDICT:    # 判斷 User 是否為第一輪對話
             mscDICT[client.user.id] = {"city": "",
@@ -169,6 +137,7 @@ async def on_message(message):
             if k == "city":
                 mscDICT[client.user.id]["city"] = lokiResultDICT["city"]
 
+
             elif k == "area":
                 mscDICT[client.user.id]["area"] = lokiResultDICT["area"]
 
@@ -176,8 +145,16 @@ async def on_message(message):
             elif k == "res_person":
                 mscDICT[client.user.id]["people"] = lokiResultDICT["res_person"][0]
 
+
             elif k == "res_time":
                 mscDICT[client.user.id]["time"] = lokiResultDICT["res_time"]
+
+            elif k == "reserve":
+                if mscDICT[client.user.id]["restaurant_name"]["預約"] == "yes":
+                    replySTR = "好的,請問幾位?"
+                else:
+                    replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
+                    mscDICT[client.user.id]["restaurant_name"] = {}
 
         if mscDICT[client.user.id]["city"] == "" and replySTR == "":
             replySTR = "請問你在哪個縣市呢?"
@@ -205,12 +182,12 @@ async def on_message(message):
         else:
             mscDICT[client.user.id]["restaurant_name"]["預約"] = "no"
 
-    elif re.search("(我想要(訂位|預約))", msgSTR):
-        if mscDICT[client.user.id]["restaurant_name"]["預約"] == "yes":
-            replySTR = "好的,請問幾位?"
-        else:
-            replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
-            mscDICT[client.user.id]["restaurant_name"] = {}
+    # elif lokiResultDICT["reserve"]:
+    #     if mscDICT[client.user.id]["restaurant_name"]["預約"] == "yes":
+    #         replySTR = "好的,請問幾位?"
+    #     else:
+    #         replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
+    #         mscDICT[client.user.id]["restaurant_name"] = {}
 
     ###9/18增加
     # elif mscDICT[client.user.id]["people"] != None and mscDICT[client.user.id]["time"] == None and replySTR == "":
