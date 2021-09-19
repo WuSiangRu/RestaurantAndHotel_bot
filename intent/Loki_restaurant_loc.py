@@ -27,22 +27,22 @@ def getResult(inputSTR, utterance, args, resultDICT):
     debugInfo(inputSTR, utterance)
     if utterance == "[我]不[清楚]這家[店]的位置":
         if "{}的位置".format(args[2]) in inputSTR:
-            resultDICT["res_loc"] = ["request"]
+            resultDICT["res_loc"] = "request"
         pass
 
     if utterance == "[我]不知道這間[餐廳]在哪":
         if "{}在哪".format(args[1]) in inputSTR:
-            resultDICT["res_loc"] = ["request"]
+            resultDICT["res_loc"] = "request"
         pass
 
     if utterance == "這間[店]在哪":
         if "{}在哪".format(args[0]) in inputSTR:
-            resultDICT["res_loc"] = ["request"]
+            resultDICT["res_loc"] = "request"
         pass
 
     if utterance == "這間[餐廳]位在哪裡":
         if "{}位在哪裡".format(args[0]) in inputSTR:
-            resultDICT["res_loc"] = ["request"]
+            resultDICT["res_loc"] = "request"
         pass
 
     return resultDICT

@@ -69,6 +69,26 @@ def get_reservation(jsonfile, msgSTR):
                 if name == msgSTR:
                     return (jsonfile[city][area][msgSTR]["預約"])
 
+def get_evaluation(jsonfile, msgSTR):
+    for city in jsonfile.keys():
+        for area in jsonfile[city].keys():
+            for name in jsonfile[city][area]:
+                if name == msgSTR:
+                    return (jsonfile[city][area][msgSTR]["評價"])
+
+def get_location(jsonfile, msgSTR):
+    for city in jsonfile.keys():
+        for area in jsonfile[city].keys():
+            for name in jsonfile[city][area]:
+                if name == msgSTR:
+                    return (jsonfile[city][area][msgSTR]["地址"])
+
+def get_perchase(jsonfile, msgSTR):
+    for city in jsonfile.keys():
+        for area in jsonfile[city].keys():
+            for name in jsonfile[city][area]:
+                if name == msgSTR:
+                    return (jsonfile[city][area][msgSTR]["價位"])
 
 punctuationPat = re.compile("[,\.\?:;，。？、：；\n]+")
 
@@ -117,6 +137,12 @@ async def on_message(message):
         await message.reply(replySTR)
         return
 
+    elif re.search("(沒有問題(了?)|ok|這樣就(行|可以|ok|沒問題)了)", msgSTR.lower()):
+        replySTR = "好的感謝您的使用祝用餐愉快"
+        await message.reply(replySTR)
+        mscDICT[client.user.id]["completed"] = True
+        return
+
     if lokiResultDICT:
         if client.user.id not in mscDICT:    # 判斷 User 是否為第一輪對話
             mscDICT[client.user.id] = {"city": "",
@@ -156,6 +182,16 @@ async def on_message(message):
                     replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
                     mscDICT[client.user.id]["restaurant_name"] = {}
 
+            elif k == "res_loc":
+                replySTR = "這家店的位置在:\n[{}]".format(get_location(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
+
+            elif k == "res_eva":
+                replySTR = "這家店的評價為:\n\n[{}]\n\n以上資訊為參考每人主觀不同還請以實際情形為準".format(get_evaluation(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
+
+            elif k == "res_price":
+                replySTR = "這家店的價位為:\n[{}]".format(get_perchase(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
+
+
         if mscDICT[client.user.id]["city"] == "" and replySTR == "":
             replySTR = "請問你在哪個縣市呢?"
 
@@ -194,8 +230,8 @@ async def on_message(message):
     #     replySTR = "好的人數為{()}位,請問大約幾點到呢?".format(mscDICT[client.user.id]["people"])
     ###9/18增加
 
-    mscDICT[client.user.id]["completed"] = True
-    print("mscDICT =", end=" ")
+    # mscDICT[client.user.id]["completed"] = True
+    # print("mscDICT =", end=" ")
     pprint(mscDICT)
 
     # if mscDICT[client.user.id]["completed"]:    # 清空 User Dict

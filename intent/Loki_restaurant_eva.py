@@ -27,27 +27,27 @@ def getResult(inputSTR, utterance, args, resultDICT):
     debugInfo(inputSTR, utterance)
     if utterance == "這[店家]好嗎":
         if "好嗎" in inputSTR:
-            resultDICT["res_eva"] = ["request"]
+            resultDICT["res_eva"] = "request"
         pass
 
     if utterance == "這家好吃嗎":
         if "好吃嗎" in inputSTR:
-            resultDICT["res_eva"] = ["request"]
+            resultDICT["res_eva"] = "request"
         pass
 
     if utterance == "這間[食物][好吃]嗎":
         if "好吃嗎" in inputSTR:
-            resultDICT["res_eva"] = ["request"]
+            resultDICT["res_eva"] = "request"
         pass
 
     if utterance == "這間[餐廳]評價如何":
         if "評價" in inputSTR:
-            resultDICT["res_eva"] = ["request"]
+            resultDICT["res_eva"] = "request"
         pass
 
     if utterance == "那這家[餐廳]評價如何啊":
         if "評價" in inputSTR:
-            resultDICT["res_eva"] = ["request"]
+            resultDICT["res_eva"] = "request"
         pass
 
     return resultDICT
