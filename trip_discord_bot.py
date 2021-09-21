@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.CRITICAL)
 # <取得多輪對話資訊>
 client = discord.Client()
 
+#
 # command_templateDICT = {"city": None,
 #                 "area": None,
 #                 "shop": {},
@@ -41,7 +42,7 @@ new_templateDICT = {"city": None,
 
 
 mscDICT = {
-    # "userID": {command_templateDICT}
+    # "userID": {new_templateDICT}
 }
 # </取得多輪對話資訊>
 
@@ -69,6 +70,7 @@ def get_reservation(jsonfile, msgSTR):
                 if name == msgSTR:
                     return (jsonfile[city][area][msgSTR]["預約"])
 
+#增加函式:取得該餐廳的評價
 def get_evaluation(jsonfile, msgSTR):
     for city in jsonfile.keys():
         for area in jsonfile[city].keys():
@@ -76,6 +78,7 @@ def get_evaluation(jsonfile, msgSTR):
                 if name == msgSTR:
                     return (jsonfile[city][area][msgSTR]["評價"])
 
+#增加函式:取得該餐廳的地址
 def get_location(jsonfile, msgSTR):
     for city in jsonfile.keys():
         for area in jsonfile[city].keys():
@@ -83,6 +86,7 @@ def get_location(jsonfile, msgSTR):
                 if name == msgSTR:
                     return (jsonfile[city][area][msgSTR]["地址"])
 
+#增加函式:取得該餐廳的價位
 def get_perchase(jsonfile, msgSTR):
     for city in jsonfile.keys():
         for area in jsonfile[city].keys():
@@ -137,10 +141,16 @@ async def on_message(message):
         await message.reply(replySTR)
         return
 
-    elif re.search("(沒有問題(了?)|ok|這樣就(行|可以|ok|沒問題)了)", msgSTR.lower()):
+    elif re.search("(沒有問題(了?)|ok|這樣就(行|可以|ok|沒問題)了|沒問題)", msgSTR.lower()):
+        mscDICT[client.user.id]["completed"] = True
+        print("mscDICT =", end=" ")
+        pprint(mscDICT)
+
+        if mscDICT[client.user.id]["completed"] == True: # 清空 User Dict
+            del mscDICT[client.user.id]
+
         replySTR = "好的感謝您的使用祝用餐愉快"
         await message.reply(replySTR)
-        mscDICT[client.user.id]["completed"] = True
         return
 
     if lokiResultDICT:
@@ -183,13 +193,13 @@ async def on_message(message):
                     mscDICT[client.user.id]["restaurant_name"] = {}
 
             elif k == "res_loc":
-                replySTR = "這家店的位置在:\n[{}]".format(get_location(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
+                replySTR = "這家店的位置在:\n{}".format(get_location(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
 
             elif k == "res_eva":
-                replySTR = "這家店的評價為:\n\n[{}]\n\n以上資訊為參考每人主觀不同還請以實際情形為準".format(get_evaluation(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
+                replySTR = "這家店的評價為:\n\n{}\n\n以上資訊為參考每人主觀不同還請以實際情形為準".format(get_evaluation(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
 
             elif k == "res_price":
-                replySTR = "這家店的價位為:\n[{}]".format(get_perchase(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
+                replySTR = "這家店的價位為:\n<{}>".format(get_perchase(restaurantDICT, msgSTR=mscDICT[client.user.id]["restaurant_name"]["name"]))
 
 
         if mscDICT[client.user.id]["city"] == "" and replySTR == "":
@@ -204,47 +214,35 @@ async def on_message(message):
 
         elif mscDICT[client.user.id]["city"] != "Nothing" and mscDICT[client.user.id]["area"] != "Nothing" and mscDICT[client.user.id]["people"] == None and mscDICT[client.user.id]["time"] == None and replySTR == "":
             # print(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]])
-            replySTR = """以下推薦[{}]家餐廳給您，分別為:[{}]。請問有您喜歡的店家嗎?""".format(len(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()),
-                                                                       [i for i in restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()])
+            replySTR = """以下推薦{}家餐廳給您，分別為:\n{}。\n請問有您喜歡的店家嗎?""".format(len(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()),
+                                                                       ", ".join(i for i in restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()))
 
         # ###9/18增加
         elif mscDICT[client.user.id]["people"] != None and mscDICT[client.user.id]["time"] == None and replySTR == "":
-            replySTR = "好的人數為[{}]位,請問大約幾點到呢?".format(mscDICT[client.user.id]["people"])
+            replySTR = "好的人數為{}位,請問大約幾點到呢?".format(mscDICT[client.user.id]["people"])
 
         elif mscDICT[client.user.id]["time"] != None and replySTR == "":
-            replySTR="""好的這邊跟您確認預約資訊為: \n預約人數:[{}]\n預約時間:[{}]\n預約餐廳:[{}]\n請問以上資訊有誤嗎?""".format(mscDICT[client.user.id]["people"], mscDICT[client.user.id]["time"], mscDICT[client.user.id]["restaurant_name"]["name"])
+            replySTR="""好的這邊跟您確認預約資訊為: \n預約人數:{}位\n預約時間:{}\n預約餐廳:{}\n請問以上資訊有誤嗎?""".format(mscDICT[client.user.id]["people"], mscDICT[client.user.id]["time"], mscDICT[client.user.id]["restaurant_name"]["name"])
         # ###9/18增加
     elif msgSTR in RestaurantLIST:
-        replySTR = "好的您選擇的店家是:[{}]，請問還需要其他服務嗎?".format(msgSTR)
+        replySTR = "好的您選擇的店家是:{}，請問還需要其他服務嗎?".format(msgSTR)
         mscDICT[client.user.id]["restaurant_name"]["name"] = msgSTR
         if get_reservation(jsonfile=restaurantDICT, msgSTR=msgSTR) == "是":  # 判斷該餐廳是否能預約
             mscDICT[client.user.id]["restaurant_name"]["預約"] = "yes"
         else:
             mscDICT[client.user.id]["restaurant_name"]["預約"] = "no"
 
-    # elif lokiResultDICT["reserve"]:
-    #     if mscDICT[client.user.id]["restaurant_name"]["預約"] == "yes":
-    #         replySTR = "好的,請問幾位?"
-    #     else:
-    #         replySTR = "不好意思，該店家不提供預約服務，請以現場情狀為準。"
-    #         mscDICT[client.user.id]["restaurant_name"] = {}
-
-    ###9/18增加
-    # elif mscDICT[client.user.id]["people"] != None and mscDICT[client.user.id]["time"] == None and replySTR == "":
-    #     replySTR = "好的人數為{()}位,請問大約幾點到呢?".format(mscDICT[client.user.id]["people"])
-    ###9/18增加
 
     # mscDICT[client.user.id]["completed"] = True
     print("mscDICT =", end=" ")
     pprint(mscDICT)
 
-    if mscDICT[client.user.id]["completed"]:    # 清空 User Dict
-        del mscDICT[client.user.id]
+    # if mscDICT[client.user.id]["completed"] == "True":    # 清空 User Dict
+    #     del mscDICT[client.user.id]
 
     if replySTR:    # 回應 User 訊息
         await message.reply(replySTR)
     return
-
 
 
 

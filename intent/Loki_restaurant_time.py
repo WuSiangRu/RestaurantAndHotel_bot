@@ -103,10 +103,14 @@ def getResult(inputSTR, utterance, args, resultDICT):
         resultDICT["res_time"] = dt
         pass
 
-    if utterance == "大概[下午六點二十分]":
-        datetime = timeSTRConvert(args[0])["time"]
-        dt = datetime[0][0]["datetime"][-8:-3]
-        resultDICT["res_time"] = dt
+    # if utterance == "大概[下午六點二十分]":
+    #     datetime = timeSTRConvert(args[0])["time"]
+    #     dt = datetime[0][0]["datetime"][-8:-3]
+    #     resultDICT["res_time"] = dt
+    #     pass
+
+    if utterance == "[我]要[預約][上午十一點]的位子":
+        # write your code here
         pass
 
     return resultDICT
