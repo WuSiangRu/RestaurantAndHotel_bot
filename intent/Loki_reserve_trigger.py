@@ -64,4 +64,16 @@ def getResult(inputSTR, utterance, args, resultDICT):
         resultDICT["reserve"] = "yes"
         pass
 
+    if utterance == "[我]想要[預定]":
+        resultDICT["reserve"] = "yes"
+        pass
+
+    if utterance == "那[我]想[預約]":
+        resultDICT["reserve"] = "yes"
+        pass
+
+    if utterance == "那[能][預約]嗎":
+        resultDICT["reserve"] = "yes"
+        pass
+
     return resultDICT

@@ -128,7 +128,7 @@ async def on_message(message):
     RestaurantLIST = get_restaurantLIST(restaurantDICT)   # 這邊透過get_restaurantLIST函式得到包含所有餐廳的list
     lokiResultDICT = getLokiResult(msgSTR)  # 取得 Loki 回傳結果
     if re.search("(hi|hello|哈囉|嗨|[你您]好)", msgSTR.lower()):
-        replySTR = "Hi 您好，請問需要什麼服務嗎？"
+        replySTR = "Hi 您好，這邊可以推薦您所在地區的餐廳及美食，可以先告訴我你在哪個縣市喔"
         await message.reply(replySTR)
         return
 
@@ -198,7 +198,11 @@ async def on_message(message):
         elif mscDICT[client.user.id]["area"] == "" and replySTR == "":
             replySTR = "請問您在哪個地區呢?"
 
-        elif mscDICT[client.user.id]["city"] != "" and mscDICT[client.user.id]["area"] != "" and mscDICT[client.user.id]["people"] == None and mscDICT[client.user.id]["time"] == None and replySTR == "":
+        elif mscDICT[client.user.id]["city"] == "Nothing" and replySTR == "":
+            replySTR = "不好意思，您所輸入的縣市可能還未加入資料庫中，還請輸入其他縣市或是等候下次更新的加入"
+
+
+        elif mscDICT[client.user.id]["city"] != "Nothing" and mscDICT[client.user.id]["area"] != "Nothing" and mscDICT[client.user.id]["people"] == None and mscDICT[client.user.id]["time"] == None and replySTR == "":
             # print(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]])
             replySTR = """以下推薦[{}]家餐廳給您，分別為:[{}]。請問有您喜歡的店家嗎?""".format(len(restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()),
                                                                        [i for i in restaurantDICT[mscDICT[client.user.id]["city"]][mscDICT[client.user.id]["area"]].keys()])
@@ -231,11 +235,11 @@ async def on_message(message):
     ###9/18增加
 
     # mscDICT[client.user.id]["completed"] = True
-    # print("mscDICT =", end=" ")
+    print("mscDICT =", end=" ")
     pprint(mscDICT)
 
-    # if mscDICT[client.user.id]["completed"]:    # 清空 User Dict
-    #     del mscDICT[client.user.id]
+    if mscDICT[client.user.id]["completed"]:    # 清空 User Dict
+        del mscDICT[client.user.id]
 
     if replySTR:    # 回應 User 訊息
         await message.reply(replySTR)

@@ -50,4 +50,24 @@ def getResult(inputSTR, utterance, args, resultDICT):
             resultDICT["res_eva"] = "request"
         pass
 
+    if utterance == "這家[店][好吃]嗎":
+        if "好吃嗎" in inputSTR:
+            resultDICT["res_eva"] = "request"
+        pass
+
+    if utterance == "這間評價如何":
+        if "評價" in inputSTR:
+            resultDICT["res_eva"] = "request"
+        pass
+
+    if utterance == "那這間評價好嗎":
+        if "評價" in inputSTR:
+            resultDICT["res_eva"] = "request"
+        pass
+
+    if utterance == "那這間評價怎麼樣":
+        if "評價" in inputSTR:
+            resultDICT["res_eva"] = "request"
+        pass
+
     return resultDICT

@@ -93,4 +93,20 @@ def getResult(inputSTR, utterance, args, resultDICT):
         resultDICT['res_time'] = [args[2] + ":" + args[3]]
         pass
 
+    if utterance == "[可能][晚上][6]:[35]到":
+        resultDICT['res_time'] = [args[2] + ":" + args[3]]
+        pass
+
+    if utterance == "[大約][晚上八點]到":
+        datetime = timeSTRConvert(args[1])["time"]
+        dt = datetime[0][0]["datetime"][-8:-3]
+        resultDICT["res_time"] = dt
+        pass
+
+    if utterance == "大概[下午六點二十分]":
+        datetime = timeSTRConvert(args[0])["time"]
+        dt = datetime[0][0]["datetime"][-8:-3]
+        resultDICT["res_time"] = dt
+        pass
+
     return resultDICT

@@ -45,4 +45,24 @@ def getResult(inputSTR, utterance, args, resultDICT):
             resultDICT["res_loc"] = "request"
         pass
 
+    if utterance == "這家[餐廳]在哪裡":
+        if "{}在哪裡".format(args[0]) in inputSTR:
+            resultDICT["res_loc"] = "request"
+        pass
+
+    if utterance == "那在哪裡":
+        if "在哪裡" in inputSTR:
+            resultDICT["res_loc"] = "request"
+        pass
+
+    if utterance == "那這家[店]在哪裡":
+        if "{}在哪裡".format(args[0]) in inputSTR:
+            resultDICT["res_loc"] = "request"
+        pass
+
+    if utterance == "那這間[店]在哪":
+        if "{}在哪".format(args[0]) in inputSTR:
+            resultDICT["res_loc"] = "request"
+        pass
+
     return resultDICT

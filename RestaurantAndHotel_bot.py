@@ -47,19 +47,20 @@ from requests import codes
 import math
 import json
 from ArticutAPI import Articut
-try:
-    from intent import Loki_restaurant_booking
-    from intent import Loki_restaurant_loc
-    from intent import Loki_restaurant_eva
-    from intent import Loki_restaurant_time
-    from intent import Loki_hotel_booking
-    from intent import Loki_hotel_eva
-    from intent import Loki_hotel_price
-    from intent import Loki_hotel_time
-    from intent import Loki_city_confirmation
-    from intent import Loki_restaurant_price
-    from intent import Loki_hotel_loc
-    from intent import Loki_reserve_trigger
+#try:
+from intent import Loki_restaurant_booking
+from intent import Loki_restaurant_loc
+from intent import Loki_restaurant_eva
+from intent import Loki_restaurant_time
+from intent import Loki_hotel_booking
+from intent import Loki_hotel_eva
+from intent import Loki_hotel_price
+from intent import Loki_hotel_time
+from intent import Loki_city_confirmation
+from intent import Loki_restaurant_price
+from intent import Loki_hotel_loc
+from intent import Loki_reserve_trigger
+"""
 except:
     from .intent import Loki_restaurant_booking
     from .intent import Loki_restaurant_loc
@@ -73,7 +74,7 @@ except:
     from .intent import Loki_restaurant_price
     from .intent import Loki_hotel_loc
     from .intent import Loki_reserve_trigger
-
+    """
 with open(r"./account.info", encoding="UTF-8") as f:
     accountINFO = json.load(f)
 LOKI_URL = "https://api.droidtown.co/Loki/BulkAPI/"
@@ -109,7 +110,7 @@ class LokiResult():
                 "loki_key": LOKI_KEY,
                 "filter_list": filterLIST
             })
-
+            print(result.status_code)
             if result.status_code == codes.ok:
                 result = result.json()
                 self.status = result["status"]
@@ -239,8 +240,8 @@ def runLoki(inputLIST, filterLIST=[]):
                     resultDICT = Loki_hotel_loc.getResult(key, lokiRst.getUtterance(index, resultIndex), lokiRst.getArgs(index, resultIndex), resultDICT)
 
                 # reserve_trigger
-                if lokiRst.getIntent(index, resultIndex) == "reserve_trigger":
-                    resultDICT = Loki_reserve_trigger.getResult(key, lokiRst.getUtterance(index, resultIndex), lokiRst.getArgs(index, resultIndex), resultDICT)
+                # if lokiRst.getIntent(index, resultIndex) == "reserve_trigger":
+                #     resultDICT = Loki_reserve_trigger.getResult(key, lokiRst.getUtterance(index, resultIndex), lokiRst.getArgs(index, resultIndex), resultDICT)
 
     else:
         resultDICT = {"msg": lokiRst.getMessage()}
@@ -335,9 +336,9 @@ if __name__ == "__main__":
     # inputLIST = ["我在台南市"]
     # inputLIST = ["我要預訂5人位子"]
     # inputLIST = ["蝦老爹美食海鮮"]
-    # inputLIST = ["在中西區"]
+    inputLIST = ["在中西區"]
     # inputLIST = ["7:46會到"]
-    inputLIST = ["我要先預約"]
+    # inputLIST = ["我要先預約"]
     # inputLIST = ["想要預約下午8:23的位子"]
     filterLIST = []
     resultDICT = runLoki(inputLIST, filterLIST)

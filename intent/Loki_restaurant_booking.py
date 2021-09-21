@@ -52,4 +52,32 @@ def getResult(inputSTR, utterance, args, resultDICT):
         resultDICT["res_person"] = [amountSTRConvert(args[0])[args[0]]]
         pass
 
+    if utterance == "[10位]":
+        resultDICT["res_person"] = [amountSTRConvert(args[0])[args[0]]]
+        pass
+
+    if utterance == "[全部][共][25位]":
+        resultDICT["res_person"] = [amountSTRConvert(args[2])[args[2]]]
+        pass
+
+    if utterance == "[我們]有[十位]":
+        resultDICT["res_person"] = [amountSTRConvert(args[1])[args[1]]]
+        pass
+
+    if utterance == "有[3位]":
+        resultDICT["res_person"] = [amountSTRConvert(args[0])[args[0]]]
+        pass
+
+    if utterance == "總共[十一位]":
+        resultDICT["res_person"] = [amountSTRConvert(args[0])[args[0]]]
+        pass
+
+    if utterance == "[我們]有[5位]":
+        resultDICT["res_person"] = [amountSTRConvert(args[1])[args[1]]]
+        pass
+
+    if utterance == "共[八位]":
+        resultDICT["res_person"] = [amountSTRConvert(args[1])[args[1]]]
+        pass
+
     return resultDICT
