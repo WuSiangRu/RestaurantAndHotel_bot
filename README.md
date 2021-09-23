@@ -21,6 +21,12 @@ TRestaurantAndHotel_bot的Repository包含以下內容：
 4. RestaurantAndHotel_bot
 
 ## **環境建立**
+### **註冊帳號**
+1. 請到 [卓騰語言科技](https://api.droidtown.co/) 官方網站註冊帳號並登入頁面
+2. 註冊會員
+
+
+
 `使用本專案python環境建議版本3.6+`
 1. 安裝該專案會使用的module
 
