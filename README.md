@@ -6,3 +6,24 @@
 只要在Discord上加入RestaurantAndHotel_bot，就能以自然語言找尋你要的餐廳的資訊喔。
 
 ## **專案列表**
++ 目錄
++ 環境設定
++ 使用說明
++ 使用者輸入範例
++ 作者
+
+## **目錄**
+TRestaurantAndHotel_bot的Repository包含以下內容：
+
+1. Data
+2. Discord
+3. ref
+4. RestaurantAndHotel_bot
+
+## **環境建立**
+`使用本專案python環境建議版本3.6+`
+1. 安裝該專案會使用的module
+
+```
+pip3 install ArticutAPI
+```
