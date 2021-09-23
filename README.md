@@ -7,7 +7,7 @@
 
 ## **專案列表**
 + 目錄
-+ 環境設定
++ 環境建立
 + 使用說明
 + 使用者輸入範例
 + 作者
@@ -25,11 +25,30 @@ TRestaurantAndHotel_bot的Repository包含以下內容：
 1. 請到 [卓騰語言科技](https://api.droidtown.co/) 官方網站註冊帳號並登入頁面
 2. 註冊會員
 
+![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/001.JPG "001")
+3. 註冊成功後登入會員
 
+![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/002.JPG "002")
+4. 登入會員之後，選擇在「服務資訊」區塊底下第四個圖示進入Loki應用
+
+![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/003.JPG "003")
 
 `使用本專案python環境建議版本3.6+`
 1. 安裝該專案會使用的module
+```
+pip install ArticutAPI
+```
 
-```
-pip3 install ArticutAPI
-```
+## **使用說明**
+### **Articut及Loki使用說明**
++ 登入帳號:[卓騰語言科技](https://api.droidtown.co/)
++ 複製Articut API金鑰
++ 選擇Loki應用後建立專案(英文名稱)
++ 複製Loki專案金鑰
++ 編輯`account.json`
+    + username:輸入註冊帳號
+    + articut_api_key:輸入複製的Articut API金鑰
+    + loki_api_key:輸入複製的Loki專案金鑰
+
++ 使用Discord來使用RestaurantAndHotel_bot，請點選 Discord 資料夾以瀏覽詳細說明。
++ 要直接使用已建立好的Loki意圖，請點選 ref 資料夾瀏覽詳細說明。
