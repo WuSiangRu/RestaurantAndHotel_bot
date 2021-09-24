@@ -45,7 +45,7 @@ pip install ArticutAPI
 + 複製Articut API金鑰
 + 選擇Loki應用後建立專案(英文名稱)
 + 複製Loki專案金鑰
-+ 編輯`account.json`
++ 編輯`account.info`
     + username:輸入註冊帳號
     + articut_api_key:輸入複製的Articut API金鑰
     + loki_api_key:輸入複製的Loki專案金鑰
@@ -64,6 +64,11 @@ pip install ArticutAPI
     `pip install -U discord.py`
 #### **建立Discord bot**
 如何建立Discord bot請參考 [How to Make a Discord Bot in Python](https://realpython.com/how-to-make-a-discord-bot-python/)
-+ 使用Discord來使用RestaurantAndHotel_bot，請點選 Discord 資料夾以瀏覽詳細說明。
-+ 要直接使用已建立好的Loki意圖，請點選 ref 資料夾瀏覽詳細說明。
+1. 建立好Discord Application後![](https://files.realpython.com/media/discord-bot-add-bot.4735c88ff16b.png "add_bot")
+
+2. 將bot的token複製![](https://files.realpython.com/media/discord-bot-rename-bot.008fd6ed6354.png "copy_token")
+以上圖片來源: [How to Make a Discord Bot in Python](https://realpython.com/how-to-make-a-discord-bot-python/)
+
+3. 將複製好的token貼到`account.info`底下discord_token裡
+
 

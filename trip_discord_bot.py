@@ -136,10 +136,10 @@ async def on_message(message):
         await message.reply(replySTR)
         return
 
-    elif re.search("(這附近有什麼(好|可以?)吃的|我想吃(東西|[晚午早]餐))", msgSTR):
-        replySTR = "請問您在哪個縣市呢?"
-        await message.reply(replySTR)
-        return
+    # elif re.search("(這附近有什麼(好|可以?)吃的|我想吃(東西|[晚午早]餐))", msgSTR):  #測試用
+    #     replySTR = "請問您在哪個縣市呢?"
+    #     await message.reply(replySTR)
+    #     return
 
     elif re.search("(沒有問題(了?)|ok|這樣就(行|可以|ok|沒問題)了|沒問題)", msgSTR.lower()):
         mscDICT[client.user.id]["completed"] = True
