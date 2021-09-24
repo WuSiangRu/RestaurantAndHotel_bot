@@ -10,13 +10,13 @@
 + 環境建立
 + 使用說明
 + 使用者輸入範例
-+ 作者
++ 作者及聯絡資訊
 
 ## **目錄**
 RestaurantAndHotel_bot的Repository包含以下內容：
 
-1. Data
-2. Discord
+1. data/restaurant_domain.json
+2. trip_discord_bot.py
 3. ref
 4. RestaurantAndHotel_bot
 
@@ -82,3 +82,8 @@ pip install ArticutAPI
 4. 使用者可詢問餐廳是否能預約，能的話bot就會詢問相關資訊![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/007.JPG "007")
 
 5. 最後bot收集完預約的資訊，使用者再對bot回覆的訊息做確認![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/008.JPG "008")
+
+## **作者及聯絡資訊**
+Samuel Wu: 
++ Mail: sam253sam@gmail.com
++ GitHub: [GitHub](https://github.com/WuSiangRu)
