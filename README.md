@@ -13,7 +13,7 @@
 + 作者
 
 ## **目錄**
-TRestaurantAndHotel_bot的Repository包含以下內容：
+RestaurantAndHotel_bot的Repository包含以下內容：
 
 1. Data
 2. Discord
@@ -50,5 +50,20 @@ pip install ArticutAPI
     + articut_api_key:輸入複製的Articut API金鑰
     + loki_api_key:輸入複製的Loki專案金鑰
 
+### **Discord使用說明**
+#### **使用檔案**
+1. intent
+2. bot_for_loki
+3. discord_bot
+#### **環境設定**
++ python版本
+    + python版本建議3.6+
++ 所需module
+    + [Discord](https://pypi.org/project/discord.py/)
+    
+    `pip install -U discord.py`
+#### **建立Discord bot**
+如何建立Discord bot請參考 [How to Make a Discord Bot in Python](https://realpython.com/how-to-make-a-discord-bot-python/)
 + 使用Discord來使用RestaurantAndHotel_bot，請點選 Discord 資料夾以瀏覽詳細說明。
 + 要直接使用已建立好的Loki意圖，請點選 ref 資料夾瀏覽詳細說明。
+
