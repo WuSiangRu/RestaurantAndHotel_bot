@@ -71,4 +71,8 @@ pip install ArticutAPI
 
 3. 將複製好的token貼到`account.info`底下discord_token裡
 
+## **使用者輸入範例**
+在Discord以標記bot:@你的bot，就可以開始對話了。
+1. 可以先問候bot
+
 
