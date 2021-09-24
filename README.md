@@ -73,6 +73,12 @@ pip install ArticutAPI
 
 ## **使用者輸入範例**
 在Discord以標記bot:@你的bot，就可以開始對話了。
-1. 可以先問候bot
+1. 可以先問候bot![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/004.JPG "004")
 
+2. 提供你現在所在的縣市地區(或捷運站)![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/005.JPG "005")
 
+3. 從bot回覆的餐廳訊息裡選擇你要的餐廳名，並可詢問地址跟評價![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/006.JPG "006")
+
+4. 使用者可詢問餐廳是否能預約，能的話bot就會詢問相關資訊![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/007.JPG "007")
+
+5. 最後bot收集完預約的資訊，使用者再對bot回覆的訊息做確認![](https://raw.githubusercontent.com/WuSiangRu/RestaurantAndHotel_bot/main/pic/008.JPG "008")
