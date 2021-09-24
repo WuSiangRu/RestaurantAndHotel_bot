@@ -46,9 +46,12 @@ pip install ArticutAPI
 + 選擇Loki應用後建立專案(英文名稱)
 + 複製Loki專案金鑰
 + 編輯`account.info`
-    + username:輸入註冊帳號
-    + articut_api_key:輸入複製的Articut API金鑰
-    + loki_api_key:輸入複製的Loki專案金鑰
+```
+"username":"your account",  #你的帳號
+"articut_api_key":"your articut key",  #你的articut金鑰
+"loki_api_key":"your loki key",  #你的loki專案金鑰
+"discord_token": "your bot token"  #你的discord bot的token
+```
 
 ### **Discord使用說明**
 #### **使用檔案**
